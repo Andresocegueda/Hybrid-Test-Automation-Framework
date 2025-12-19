@@ -67,6 +67,12 @@ Cada vez que se hace un `push` a la rama principal, un servidor Ubuntu en la nub
 2.  Ejecuta todos los tests en modo **Headless** (sin interfaz gráfica).
 3.  Genera un reporte de éxito o fallo.
 
+
+<img width="1911" height="1025" alt="image" src="https://github.com/user-attachments/assets/e673e921-4546-4c39-9381-e342b81eb0a4" />
+
+
+
+
 ---
 **Autor:** Ramón Andrés Ocegueda Montoya
 * QA Automation Engineer Student
