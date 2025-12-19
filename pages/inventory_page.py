@@ -7,12 +7,9 @@ class InventoryPage:
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
-        # Un elemento único del inventario (el título "Products")
         self.titulo_pagina = (By.XPATH, "//span[@class='title'][contains(.,'Products')]")
         self.buttons = (By.XPATH, "(//button[contains(.,'Add to cart')])")
     def esta_en_inventario(self):
-        # Verifica si el título "Products" es visible
-        # Si no aparece en 10 segs, fallará (significa que el login falló)
         try:
             self.wait.until(EC.url_contains("inventory"))
             return True

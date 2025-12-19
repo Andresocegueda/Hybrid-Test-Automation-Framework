@@ -27,10 +27,12 @@ Demostrar la capacidad de construir una solución de calidad robusta que integra
 Hybrid-Test-Automation-Framework/
 ├── .github/workflows/  # Configuración del robot de CI/CD
 ├── pages/              # Page Objects (Lógica de las páginas Web - POM)
-├── reportes/           # Reportes HTML generados (evidencias)
+├── reportes/           # Reportes HTML generados (evidencias con capturas de pantalla)
 ├── tests/              # Casos de prueba (Scripts)
 │   ├── test_ui_login.py    # Pruebas de Interfaz (Selenium)
 │   └── test_api_users.py   # Pruebas de Backend (API)
+├── utils/              # Carpeta para funciones de ayuda (Aquí se lee el .csv)
+├── data/               # Carpeta donde se encuentran los .csv
 ├── conftest.py         # Configuración global (Fixtures, Hooks, Drivers)
 ├── requirements.txt    # Dependencias del proyecto
 └── README.md           # Documentación
@@ -53,9 +55,9 @@ Si deseas correr estas pruebas en tu máquina, sigue estos pasos:
     ```
 
 3.  **Ejecutar las pruebas:**
-    Para correr todo el set (UI + API):
+    Para correr todo el set y dé el reporte (UI + API):
     ```bash
-    pytest -v
+    pytest --html=reporte.html --self-contained-html
     ```
 
 ## Integración Continua (CI/CD)

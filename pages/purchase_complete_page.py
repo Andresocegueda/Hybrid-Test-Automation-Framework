@@ -8,7 +8,7 @@ class PurchaseCompletePage:
         self.wait = WebDriverWait(driver,10)
         self.message = (By.XPATH, "//h2[@class='complete-header'][contains(.,'Thank you for your order!')]")
 
-    def is_fihish(self):
+    def is_finish(self):
         try:
             self.wait.until(EC.url_contains("checkout-complete"))
             return True

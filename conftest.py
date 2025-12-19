@@ -6,11 +6,6 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 
 @pytest.fixture(scope="function")
 def driver(request):
-    """
-    Fixture exclusiva para pruebas de UI (Selenium).
-    Si un test NO pide este argumento 'driver', el navegador NO se abrirá.
-    Esto permite que los tests de API corran rápido sin abrir Chrome.
-    """
     # 1. Configuración de Opciones
     opciones = Options()
     opciones.add_argument("--incognito")
@@ -28,29 +23,21 @@ def driver(request):
     opciones.add_experimental_option("excludeSwitches", ["enable-automation"])
     opciones.add_experimental_option('useAutomationExtension', False)
 
-    # 2. Iniciar el Driver
+    # Iniciar el Driver
     service = ChromeService(ChromeDriverManager().install())
 
     driver = webdriver.Chrome(service=service, options=opciones)
-    # Ya no hace falta maximize si usamos start-maximized, pero lo dejamos por seguridad
     driver.maximize_window()
 
-    # IMPORTANTE: Adjuntamos el driver al nodo del test para el reporte
     request.node.driver = driver
 
-    # 3. Entregar el driver al test
     yield driver
 
-    # 4. Limpieza (Teardown)
     driver.quit()
 
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
-    """
-    Este hook genera el reporte HTML y adjunta capturas SOLO si es necesario.
-    Funciona tanto para UI (con foto) como para API (sin foto).
-    """
     pytest_html = item.config.pluginmanager.getplugin('html')
     outcome = yield
     report = outcome.get_result()
@@ -58,11 +45,9 @@ def pytest_runtest_makereport(item, call):
 
     if report.when == 'call':
         if report.failed:
-            # Intentamos obtener el driver del test
             driver = getattr(item, 'driver', None)
 
             if driver:
-                # CASO 1: Es un test de UI (Selenium)
                 print("\n📸 Fallo en UI detectado. Tomando captura de pantalla...")
                 screenshot = driver.get_screenshot_as_base64()
                 html = (
@@ -76,8 +61,6 @@ def pytest_runtest_makereport(item, call):
                 )
                 extra.append(pytest_html.extras.html(html))
             else:
-                # CASO 2: Es un test de API (Backend)
-                # No hacemos nada, ni imprimimos error. Es normal que no haya driver.
                 pass
 
         report.extra = extra

@@ -18,8 +18,15 @@ class LoginPage:
         self.driver.get(self.url)
 
     def login(self, username, password):
+
         self.wait.until(EC.visibility_of_element_located(self.input_user)).send_keys(username)
         self.driver.find_element(*self.input_pass).send_keys(password)
         self.driver.find_element(*self.btn_login).click()
 
+    def obtener_mensaje_error(self):
+        try:
+            self.wait.until(EC.visibility_of_element_located((By.XPATH, "//h3[contains(@data-test,'error')]")))
+            return True
+        except:
+            return False
 
