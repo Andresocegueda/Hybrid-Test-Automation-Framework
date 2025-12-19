@@ -22,4 +22,12 @@ jobs:
 
     - name: Corriendo Tests con Pytest
       run: |
-        pytest -v
+        pytest -v --html=reportes/reporte.html --self-contained-html
+
+    # Paso 5: Guardar el reporte en la nube (Artifact)
+    - name: Subir Reporte HTML
+      if: always()  # ¡Importante! Se ejecuta aunque fallen los tests
+      uses: actions/upload-artifact@v4
+      with:
+        name: reporte-de-pruebas
+        path: reportes/reporte.html
